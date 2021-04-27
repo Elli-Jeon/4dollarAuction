@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <!-- 이쪽에서 서버의 socket을 받아줌 -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();  // client 쪽에서 socket.io여는 것. 기본적으로 host에서 여는 페이지에 연결
+
+        var messages = document.getElementById('messages');
+        var form = document.getElementById('form');
+        var input = document.getElementById('input');
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            if(input.value){
+                socket.emit('chat message', input.value); 
+                // 서버쪽에 chat message라는 이름의 이벤트로 input.value 전송
+                input.value = '';
+            }
+        });
+
+        socket.on('chat message', function(msg){
+            var item = document.createElement('li');
+            item.textContent = msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight)
+        });
+    </script>
+  </body>
+</html>
