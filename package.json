@@ -1,0 +1,24 @@
+{
+  "name": "4dollarAuction",
+  "version": "1.0.0",
+  "description": "Used Luxury Item Auction",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elli-Jeon/4dollarAuction.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elli-Jeon/4dollarAuction/issues"
+  },
+  "homepage": "https://github.com/Elli-Jeon/4dollarAuction#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^4.0.1"
+  }
+}
