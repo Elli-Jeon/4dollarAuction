@@ -19,6 +19,8 @@
   "homepage": "https://github.com/Elli-Jeon/4dollarAuction#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
     "socket.io": "^4.0.1"
   }
 }

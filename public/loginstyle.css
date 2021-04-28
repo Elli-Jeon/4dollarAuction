@@ -1,0 +1,13 @@
+.container {
+    display: flex;
+    flex-direction: row;
+}
+
+.row {
+    width: 100%;
+}
+
+.col-md-6 {
+    margin: auto;
+    margin-top : 100px;
+}
