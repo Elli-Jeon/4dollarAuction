@@ -21,6 +21,7 @@ app.use(express.static('public')); // 여기 폴더 안에 있는 파일들만 �
 // 왜 css파일들이 /assets으로 되어있는데 되나? 그것은. root위에 public폴더를 올린 것이 아니라, root위에 public한 폴더들을 바로 연결해주었기 때문.
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /* 
 app.get('/', (request, response)=>{
@@ -38,13 +39,41 @@ app.get('/chatroom',(request, response)=>{
     response.sendFile(__dirname + '/chatroom.html');
 });
 
+app.get('/signup',(request, response)=>{
+    response.sendFile(__dirname + '/signup.html')
+})
+
 app.post('/signup',(request, response)=>{
-    console.log(request.body);
-    var userName = req.body.
+    console.log(request.body); // parse 필요없나?
+    var userName = request.body.userName;
+    var userEmail = request.body.userEmail;
+    var userPassword = request.body.userPassword;
+
+    var sql = "INSERT INTO user (user_email,user_name,user_password,user_account) VALUES[?,?,?,?]";
+    connection.query(
+        sql,
+        [
+            userName,
+            userEmail,
+            userPassword,
+            0,
+        ],
+        function(error, results, fields){
+            if (error) throw error;
+            else {
+                console.log("sql :", this.sql);
+                response.json(1); // return 1줘서 아까 signup 페이지 1이 나온듯?
+            }
+        }
+    )
+});
+
+app.get('/login',(request, response)=>{
+    response.sendFile(__dirname + '/login.html');
 });
 
 app.post('/login', function(req, res){
-    console.log("사용자 입력정보 : ", req.body);
+    console.log("사용자 입력정보 : ", req.body);  // req.body가 {} 비어있음.
     var userEmail = req.body.userEmail;
     var userPassword = req.body.userPassword;
     //db 가서 페스워드 맞는지 체크
@@ -53,14 +82,14 @@ app.post('/login', function(req, res){
         if (error) throw error;
         else {
             if (results.length === 0){
-                res.json("등록되지 않은 아이디입니다.");
+                res.json("등록되지 않은 아이디입니다.");  // 이건 왜 res.json??
             } else {
                 var dbPassword = results[0].user_password;
                 if (userPassword == dbPassword){
                     var tokenkey = "fintech";
                     jwt.sign(
                         {
-                            userId : results[0].user_id,
+                            userName : results[0].user_name,
                             userEmail: results[0].user_email
                         }, tokenkey,
                         {

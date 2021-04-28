@@ -287,11 +287,11 @@
 						</div><!-- End .heading -->
 
 						<form action="#">
-							<input type="text" class="form-control" placeholder="Name" required>
+							<input type="text" id="userName" class="form-control" placeholder="Name" required>
 
 							<h2 class="title mb-2">Login information</h2>
-							<input type="email" class="form-control" placeholder="Email Address" required>
-							<input type="password" class="form-control" placeholder="Password" required>
+							<input type="email" id="userEmail" class="form-control" placeholder="Email Address" required>
+							<input type="password" id="userPassword" class="form-control" placeholder="Password" required>
 							<input type="password" class="form-control" placeholder="Confirm Password" required>
 
 							<div class="custom-control custom-checkbox">
@@ -299,7 +299,7 @@
 							</div><!-- End .custom-checkbox -->
 
 							<div class="form-footer">
-								<button type="submit" class="btn btn-primary">Create Account</button>
+								<button type="submit" id="signupBtn" class="btn btn-primary">Create Account</button>
 							</div><!-- End .form-footer -->
 						</form>
 					</div><!-- End .col-md-6 -->
@@ -308,11 +308,31 @@
         </main>
     </div>
 
-    <script>
+	<script src="/assets/js/jquery.min.js"></script>
 
-
-
-
+	<script>
+		$("#signupBtn").click(function(){
+			var userName = $("#userName").val();
+			var userEmail = $("#userEmail").val();
+			var userPassword = $("#userPassword").val();
+			$.ajax({
+				url : "/signup",
+				type : "POST",
+				data : {
+					userName : userName,
+					userEmail : userEmail,
+					userPassword : userPassword
+				}, 
+				success : function(data){
+					if(data == "1"){
+						alert("Signup Success");
+						window.location.href = "/login";
+					} else {
+						alert("Sign Failed...");
+					}
+				},
+			});
+		});
     </script>
 
 
