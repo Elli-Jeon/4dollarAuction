@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="payBtn">Pay</button>;
+    
+    <!-- JQuery library file. requared all pages -->
+    <script src="assets/js/jquery.min.js"></script>
+    <!-- Template global script file. requared all pages -->
+
+    <script>
+        let payBtn = document.getElementById("#payBtn");
+        $("#payBtn").click(()=>{
+            $.ajax({
+            url:'http://localhost:3001/withdraw',
+            type : 'POST',
+            headers : {
+                'ourtoken' : sessionStorage.getItem('ourToken')
+            },
+             data : {  // server 입장에서는 request.body로 들어감.
+                product_id : "12345678",
+                fin_use_num : "120211210788932288467081"
+            },
+            success:function(data){
+                console.log(data);
+
+                if(data == 1){
+                    alert('결제완료')
+                } else {
+                alert(data);
+                }
+
+            }
+        });
+
+        })        
+        
+
+    </script>
+
+</body>
+</html>

@@ -452,12 +452,16 @@
         <!-- 이쪽에서 서버의 socket을 받아줌 -->
         <script src="/socket.io/socket.io.js"></script>
         <script>
-            var socket = io();  // client 쪽에서 socket.io여는 것. 기본적으로 host에서 여는 페이지에 연결
+            let socket = io();  // client 쪽에서 socket.io여는 것. 기본적으로 host에서 여는 페이지에 연결
 
-            var messages = document.getElementById('messages');
-            var form = document.getElementById('form');
-            var input = document.getElementById('input');
-            socket.emit('login', "userId"); 
+            let messages = document.getElementById('messages');
+            let form = document.getElementById('form');
+            let input = document.getElementById('input');
+            
+            let loginUserData = {
+                token : sessionStorage.getItem('ourToken')
+            };
+            socket.emit('login', loginUserData); // 서버 쪽에 전달해서 서버에서 배열에 쌓아 둘 거임.
 
             form.addEventListener('submit', function(e){
                 e.preventDefault();
@@ -475,12 +479,24 @@
                 item.textContent = msg;
                 messages.appendChild(item);
                 window.scrollTo(0, 0); //화면을 맨 위에 고정
+                // 위는 chat에 띄어주는 작업
             });
 
             socket.on('highest price',(msg)=>{
                 let item = document.querySelector(".Highest");
                 item.textContent = msg;
-                window.scrollTo(0,0);
+                //window.scrollTo(0,3000);
+                // 최고가를 화면 우측에 갱신해주는 작업.
+
+                let msgObj = {
+                    token : sessionStorage.getItem('ourToken'),
+                    highestprice : msg  //최고가
+                }
+
+                socket.emit('store highest price', msgObj);
+                //client session strage에 저장된 것을 가져와서 서버에 전송
+
+
             });
 
 

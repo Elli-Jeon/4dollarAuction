@@ -314,9 +314,9 @@
                     userEmail : userEmail,
                     userPassword, userPassword
                 },
-                success: function(data){
+                success: function(data){ //token을 받아오지. 
                     console.log(data)
-                    sessionStorage.setItem('ourToken',data);
+                    sessionStorage.setItem('ourToken',data);   // 세션스토리지에 토큰정보 저장.
                     window.location.href = "/chatroom";
                 }
             });
